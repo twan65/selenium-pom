@@ -18,22 +18,25 @@ public abstract class PetClinicPageObject {
         this.driver = webDriver;
     }
 
+    /**
+     *  画面がブラウザで準備できるまで待機
+     */
     public abstract void isReady();
 
     protected void captureFullScreen() {
         // スクロールしながら画面全体をキャプチャ
-        BufferedImage screenshot = new AShot()
-                .shootingStrategy(ShootingStrategies.viewportPasting(100))
-                .takeScreenshot(driver)
-                .getImage();
-
-        // 画像を保存
-        try {
-            ImageIO.write(screenshot, "PNG", new File(OUTPUT_PATH));
-        } catch (IOException e) {
-            // TODO: ログに変える
-            System.out.println("キャプチャが保存できません。");
-        }
+//        BufferedImage screenshot = new AShot()
+//                .shootingStrategy(ShootingStrategies.viewportPasting(100))
+//                .takeScreenshot(driver)
+//                .getImage();
+//
+//        // 画像を保存
+//        try {
+//            ImageIO.write(screenshot, "PNG", new File(OUTPUT_PATH));
+//        } catch (IOException e) {
+//            // TODO: ログに変える
+//            System.out.println("キャプチャが保存できません。");
+//        }
 
         // TODO: ログに変える
         System.out.println("Screenshot saved successfully to: " + OUTPUT_PATH);
@@ -50,7 +53,7 @@ public abstract class PetClinicPageObject {
      */
     protected void visit(String path) {
         // TODO: 設定ファイルからURLを取得するように変更
-        driver.get("http://localhost:8080" + path);
+        driver.get("https://hotel.testplanisphere.dev" + path);
         isReady();
         captureFullScreen();
     }
