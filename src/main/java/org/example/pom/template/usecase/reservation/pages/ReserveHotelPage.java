@@ -2,9 +2,11 @@ package org.example.pom.template.usecase.reservation.pages;
 
 import org.example.pom.template.usecase.PetClinicPageObject;
 import org.example.pom.template.usecase.reservation.models.AdditionalPlan;
+import org.example.pom.template.usecase.reservation.models.Contract;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -33,12 +35,13 @@ public class ReserveHotelPage extends PetClinicPageObject {
     }
 
     public ReserveHotelConfirmPage reserve(String date, String term, String headCount
-            , String name, String contact, String comment, AdditionalPlan ...additionalPlans) {
+            , String name, Contract contact, String comment, AdditionalPlan ...additionalPlans) {
 
         driver.findElement(By.id("date")).sendKeys(date);
         driver.findElement(By.id("term")).sendKeys(term);
         driver.findElement(By.id("headCount")).sendKeys(headCount);
 
+        // 追加プランを選択
         for (AdditionalPlan additionalPlan : additionalPlans) {
             switch (additionalPlan) {
                 case BREAKFAST: {
@@ -53,8 +56,11 @@ public class ReserveHotelPage extends PetClinicPageObject {
             }
         }
 
+        // 確認のご連絡を選択
+        Select contactSelect = new Select(driver.findElement(By.id("contact")));
+        contactSelect.selectByValue(contact.toValue());
+
         driver.findElement(By.id("name")).sendKeys(name);
-        driver.findElement(By.id("contact")).sendKeys(contact);
         driver.findElement(By.id("comment")).sendKeys(comment);
 
         ReserveHotelConfirmPage reserveHotelConfirmPage = new ReserveHotelConfirmPage(driver);
